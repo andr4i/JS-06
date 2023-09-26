@@ -86,6 +86,8 @@ const users = [
         }
     }
 ]
+users[0].fav_music.bands.push("Iron Maiden");
+users[1].fav_music.bands.push("Los Tucanes de Tijuana");
 
 const CARD_SECTION = document.getElementById('profiles');
 
