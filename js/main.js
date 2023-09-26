@@ -58,9 +58,7 @@ inputName.addEventListener('input', e => {
 
 const profileBtn = document.getElementById('ProfileBtn');
 
-profileBtn.addEventListener('click', () => {
-    userName.textContent = inputName.value;
-})
+
 
 const users = [
     {
@@ -118,7 +116,7 @@ const populateElements = (user, userElements) => {
     userElements.user_name.textContent = user.user_name;
     userElements.age.textContent = user.age;
     userElements.description.textContent = user.description;
-
+    /*
     const bandList = user.fav_music.bands.map(e => {
         const pElement = document.createElement('p');
         pElement.textContent = e;
@@ -127,16 +125,15 @@ const populateElements = (user, userElements) => {
 
     userElements.bands = bandList;
     console.log(bandList);
+    */
     return userElements;
 }
 
 
 const renderElements = (card, elements) => {
     card.append(elements.user_name, elements.age, elements.description);
-    elements.bands.forEach(band =>{
-        card.append(band)
-    })
 }
+
 
 users.forEach(user => {
     const card = createCard();
@@ -155,3 +152,23 @@ users.forEach(user => {
 // EVITAR LAS BANDAS PARA EL EJERCICIO 2
 // 2. Obtener la info del usuario desde inputs y mostrar en tarjetas
 // Al menos deben tener 2 commits
+
+const inputAge = document.getElementById("inputedad");
+const inputDescripcion = document.getElementById("inputdescripcion");
+profileBtn.addEventListener('click', () => {
+    console.log("Me pucho we");
+    const esqueletoNuevoUsuario = {
+        id : users.length,
+        user_name : inputName.value,
+        description : inputDescripcion.value,
+        age : inputAge.value
+    }
+    users.push(esqueletoNuevoUsuario)
+    const card = createCard();
+    const userElements = createDescription();
+
+    const elementsWithData = populateElements(esqueletoNuevoUsuario, userElements);
+    renderElements(card, elementsWithData);
+    CARD_SECTION.append(card);
+    console.log(users);
+})
