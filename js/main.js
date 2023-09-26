@@ -84,6 +84,14 @@ const users = [
         }
     }
 ]
+const otherUsers = [
+    {
+        id: 1,  //Agregue este usuario para que la lista no este vacia y pueda
+        user_name: 'Gonzalo Andrei',    //usar su longitud como identificador
+        description: 'Me gustan los gatos',
+        age: '25',
+    }
+]
 
 const CARD_SECTION = document.getElementById('profiles');
 
@@ -116,22 +124,32 @@ const populateElements = (user, userElements) => {
     userElements.user_name.textContent = user.user_name;
     userElements.age.textContent = user.age;
     userElements.description.textContent = user.description;
-    /*
-    const bandList = user.fav_music.bands.map(e => {
-        const pElement = document.createElement('p');
-        pElement.textContent = e;
-        return pElement;
-    })
-
-    userElements.bands = bandList;
-    console.log(bandList);
-    */
+    // Para poder usar la funcion con el otro tipo de usuario
+    // agregue esta verificacion, hasOwnProperty nos indica si el objeto
+    // tiene esa propiedad de manera booleana
+    if(user.hasOwnProperty("fav_music")){
+        const bandList = user.fav_music.bands.map(e => {
+            const pElement = document.createElement('p');
+            pElement.textContent = e;
+            return pElement;
+        })
+    
+        userElements.bands = bandList;
+        console.log(bandList);
+    }
+    
     return userElements;
 }
 
 
 const renderElements = (card, elements) => {
     card.append(elements.user_name, elements.age, elements.description);
+    // Realizo la misma verificacion que en populate.
+    if(elements.hasOwnProperty("bands")){
+        elements.bands.forEach(band =>{
+            card.append(band)
+        })
+    }
 }
 
 
@@ -156,19 +174,22 @@ users.forEach(user => {
 const inputAge = document.getElementById("inputedad");
 const inputDescripcion = document.getElementById("inputdescripcion");
 profileBtn.addEventListener('click', () => {
-    console.log("Me pucho we");
+     // Cuando se activca el evento se genera la estructura de un usuario
+     // y se llama el valor de los inputs para cargarlos en el objeto
     const esqueletoNuevoUsuario = {
-        id : users.length,
+        id : otherUsers.length,
         user_name : inputName.value,
         description : inputDescripcion.value,
         age : inputAge.value
     }
-    users.push(esqueletoNuevoUsuario)
+    // Guardo el usuario en otra lista e imprimo su informacion con las funciones
+    // que hicimos en clase
+    otherUsers.push(esqueletoNuevoUsuario)
     const card = createCard();
     const userElements = createDescription();
 
     const elementsWithData = populateElements(esqueletoNuevoUsuario, userElements);
     renderElements(card, elementsWithData);
     CARD_SECTION.append(card);
-    console.log(users);
+    console.log(users   );
 })
